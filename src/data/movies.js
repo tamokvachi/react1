@@ -1,0 +1,121 @@
+export const MOVIES = [
+  {
+    id: 1,
+    title: "დასაწყისი (Inception)",
+    originalTitle: "Inception",
+    year: 2010,
+    genre: "ფანტასტიკა",
+    rating: 8.8,
+    duration: "2სთ 28წთ",
+    director: "კრისტოფერ ნოლანი",
+    poster: "https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
+    description: "ქურდი, რომელიც სიზმრების სამყაროში იპარავს კორპორატიულ საიდუმლოებებს, იღებს თითქმის შეუძლებელ დავალებას: ვინმეს გონებაში ახალი იდეა ჩანერგოს.",
+    featured: true
+  },
+  {
+    id: 2,
+    title: "ინტერსტელარი (Interstellar)",
+    originalTitle: "Interstellar",
+    year: 2014,
+    genre: "ფანტასტიკა",
+    rating: 8.7,
+    duration: "2სთ 49წთ",
+    director: "კრისტოფერ ნოლანი",
+    poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+    description: "მკვლევართა ჯგუფი მოგზაურობს კოსმოსურ ხვრელში, რათა იპოვოს ახალი დასახლებადი პლანეტა კაცობრიობის გადასარჩენად.",
+    featured: true
+  },
+  {
+    id: 3,
+    title: "ბნელი რაინდი (The Dark Knight)",
+    originalTitle: "The Dark Knight",
+    year: 2008,
+    genre: "ექშენი",
+    rating: 9.0,
+    duration: "2სთ 32წთ",
+    director: "კრისტოფერ ნოლანი",
+    poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+    description: "როდესაც გოთემში ჩნდება ქაოსის მომტანი ჯოკერი, ბეტმენი იძულებულია თავისი შესაძლებლობების ზღვარს გასცდეს სამართლიანობის დასაცავად.",
+    featured: true
+  },
+  {
+    id: 4,
+    title: "მაკულატურა (Pulp Fiction)",
+    originalTitle: "Pulp Fiction",
+    year: 1994,
+    genre: "კრიმინალი",
+    rating: 8.9,
+    duration: "2სთ 34წთ",
+    director: "კვენტინ ტარანტინო",
+    poster: "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+    description: "ლოს-ანჯელესის კრიმინალური სამყაროს ორი დაქირავებული მკვლელის, მოკრივისა და განგსტერების გადახლართული, უჩვეულო ისტორიები.",
+    featured: false
+  },
+  {
+    id: 5,
+    title: "მატრიცა (The Matrix)",
+    originalTitle: "The Matrix",
+    year: 1999,
+    genre: "ფანტასტიკა",
+    rating: 8.7,
+    duration: "2სთ 16წთ",
+    director: "ლანა და ლილი ვაჩოვსკები",
+    poster: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+    description: "კომპიუტერული ჰაკერი შეიტყობს, რომ რეალობა, რომელშიც ცხოვრობს, ხელოვნური ინტელექტის მიერ შექმნილი ილუზიაა.",
+    featured: false
+  },
+  {
+    id: 6,
+    title: "მებრძოლთა კლუბი (Fight Club)",
+    originalTitle: "Fight Club",
+    year: 1999,
+    genre: "დრამა",
+    rating: 8.8,
+    duration: "2სთ 19წთ",
+    director: "დევიდ ფინჩერი",
+    poster: "https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+    description: "უძილობით გატანჯული ოფისის თანამშრომელი ხვდება ქარიზმატულ საპნის გამყიდველს და ერთად აარსებენ საიდუმლო მიწისქვეშა კლუბს.",
+    featured: false
+  },
+  {
+    id: 7,
+    title: "მოჩვენებებით გატაცებული (Spirited Away)",
+    originalTitle: "Spirited Away",
+    year: 2001,
+    genre: "ანიმაცია",
+    rating: 8.6,
+    duration: "2სთ 05წთ",
+    director: "ჰაიაო მიაძაკი",
+    poster: "https://image.tmdb.org/t/p/w500/39wmItIWsg5sZMyRUHLkWBcuVCM.jpg",
+    description: "10 წლის გოგონა ჩიჰირო შემთხვევით აღმოჩნდება სულების, ჯადოქრებისა და მონსტრების ჯადოსნურ სამყაროში, სადაც მშობლების გადარჩენა უწევს.",
+    featured: false
+  },
+  {
+    id: 8,
+    title: "ნათლია (The Godfather)",
+    originalTitle: "The Godfather",
+    year: 1972,
+    genre: "კრიმინალი",
+    rating: 9.2,
+    duration: "2სთ 55წთ",
+    director: "ფრენსის ფორდ კოპოლა",
+    poster: "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
+    description: "კორლეონეს მაფიოზური ოჯახის პატრიარქი ძალაუფლების გადაცემას იწყებს თავის უმცროს, ომიდან ახლადდაბრუნებულ შვილზე.",
+    featured: true
+  },
+  {
+    id: 9,
+    title: "გლადიატორი (Gladiator)",
+    originalTitle: "Gladiator",
+    year: 2000,
+    genre: "ექშენი",
+    rating: 8.5,
+    duration: "2სთ 35წთ",
+    director: "რიდლი სკოტი",
+    poster: "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg",
+    description: "ღალატის მსხვერპლი რომაელი გენერალი მაქსიმუსი გლადიატორი ხდება, რათა შური იძიოს იმპერატორზე, რომელმაც მისი ოჯახი გაანადგურა.",
+    featured: false
+  }
+];
+
+export const GENRES = ["ყველა", "ექშენი", "ფანტასტიკა", "დრამა", "კრიმინალი", "ანიმაცია"];
