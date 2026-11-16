@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
 
-export default function MovieCard({ movie, isFavorite, onToggleFavorite, onSelectMovie }) {
+export default function MovieCard({ 
+  movie, 
+  isFavorite, 
+  onToggleFavorite, 
+  onSelectMovie,
+  onDeleteMovie
+}) {
   const [imgError, setImgError] = useState(false);
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    if (window.confirm(`ნამდვილად გსურთ ფილმის "${movie.title}" წაშლა?`)) {
+      onDeleteMovie(movie.id);
+    }
+  };
 
   return (
     <article className="movie-card">
@@ -16,20 +29,33 @@ export default function MovieCard({ movie, isFavorite, onToggleFavorite, onSelec
         <div className="poster-overlay">
           <button className="preview-btn">დეტალურად ნახვა</button>
         </div>
+
         <span className="rating-pill">
           ⭐ {movie.rating.toFixed(1)}
         </span>
-        <button
-          className={`favorite-btn ${isFavorite ? 'active' : ''}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleFavorite(movie.id);
-          }}
-          aria-label={isFavorite ? "რჩეულებიდან ამოშლა" : "რჩეულებში დამატება"}
-          title={isFavorite ? "რჩეულებიდან ამოშლა" : "რჩეულებში დამატება"}
-        >
-          {isFavorite ? '❤️' : '🤍'}
-        </button>
+
+        <div className="card-top-actions">
+          <button
+            className={`favorite-btn ${isFavorite ? 'active' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleFavorite(movie.id);
+            }}
+            aria-label={isFavorite ? "რჩეულებიდან ამოშლა" : "რჩეულებში დამატება"}
+            title={isFavorite ? "რჩეულებიდან ამოშლა" : "რჩეულებში დამატება"}
+          >
+            {isFavorite ? '❤️' : '🤍'}
+          </button>
+
+          <button
+            className="delete-card-btn"
+            onClick={handleDelete}
+            aria-label="ფილმის წაშლა"
+            title="ფილმის წაშლა"
+          >
+            🗑️
+          </button>
+        </div>
       </div>
 
       <div className="movie-info">

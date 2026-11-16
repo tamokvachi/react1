@@ -1,17 +1,58 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { MOVIES } from './data/movies';
 import Header from './components/Header';
+import TaskList from './components/TaskList';
 import HeroSection from './components/HeroSection';
 import MoviesSection from './components/MoviesSection';
 import Footer from './components/Footer';
 import MovieModal from './components/MovieModal';
+import AddMovieModal from './components/AddMovieModal';
 
 export default function App() {
+  const [moviesList, setMoviesList] = useState(MOVIES);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGenre, setSelectedGenre] = useState('ყველა');
   const [sortBy, setSortBy] = useState('featured');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  // Tasks State
+  const [tasks, setTasks] = useState([
+    { id: 1, title: 'ფილმების სიის გადახედვა', completed: true },
+    { id: 3, title: 'რჩეულების შენახვა', completed: false }
+  ]);
+
+  const handleToggle = (id) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => {
+        if (task.id === id) {
+          const updatedCompleted = !task.completed;
+
+          // შესრულებულად მონიშვნისას გადასვლის (ნავიგაციის) ფუნქცია
+          if (updatedCompleted) {
+            // თუ რჩეულების შენახვაა, ვაჩვენოთ რჩეულები
+            if (task.title.includes('რჩეულებ')) {
+              setShowFavoritesOnly(true);
+            } else if (task.title.includes('სიის გადახედვა') || task.title.includes('ფილმ')) {
+              setShowFavoritesOnly(false);
+            }
+
+            // გადასვლა (Scroll) ფილმების ჩამონათვალზე
+            setTimeout(() => {
+              const moviesSection = document.getElementById('movies-section');
+              if (moviesSection) {
+                moviesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 80);
+          }
+
+          return { ...task, completed: updatedCompleted };
+        }
+        return task;
+      })
+    );
+  };
 
   // Load favorites from localStorage
   const [favorites, setFavorites] = useState(() => {
@@ -43,8 +84,20 @@ export default function App() {
     setShowFavoritesOnly(false);
   };
 
+  const handleAddMovie = (newMovie) => {
+    setMoviesList((prev) => [newMovie, ...prev]);
+  };
+
+  const handleDeleteMovie = (id) => {
+    setMoviesList((prev) => prev.filter((movie) => movie.id !== id));
+    setFavorites((prev) => prev.filter((favId) => favId !== id));
+    if (selectedMovie && selectedMovie.id === id) {
+      setSelectedMovie(null);
+    }
+  };
+
   const filteredMovies = useMemo(() => {
-    return MOVIES.filter(movie => {
+    return moviesList.filter(movie => {
       // ჟანრის ფილტრი
       if (selectedGenre !== 'ყველა' && movie.genre !== selectedGenre) {
         return false;
@@ -84,9 +137,14 @@ export default function App() {
         setShowFavoritesOnly={setShowFavoritesOnly}
       />
 
+      {/* TaskList */}
+      <div className="container tasks-container">
+        <TaskList tasks={tasks} onToggle={handleToggle} />
+      </div>
+
       <main className="container main-content">
         {/* 2. HERO SECTION COMPONENT */}
-        <HeroSection totalMovies={MOVIES.length} />
+        <HeroSection totalMovies={moviesList.length} />
 
         {/* 3. MOVIES SECTION COMPONENT */}
         <MoviesSection
@@ -101,6 +159,8 @@ export default function App() {
           toggleFavorite={toggleFavorite}
           onSelectMovie={setSelectedMovie}
           onResetFilters={handleResetFilters}
+          onOpenAddModal={() => setIsAddModalOpen(true)}
+          onDeleteMovie={handleDeleteMovie}
         />
       </main>
 
@@ -114,8 +174,16 @@ export default function App() {
           onClose={() => setSelectedMovie(null)}
           isFavorite={favorites.includes(selectedMovie.id)}
           onToggleFavorite={toggleFavorite}
+          onDeleteMovie={handleDeleteMovie}
         />
       )}
+
+      {/* Add Movie Modal */}
+      <AddMovieModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onAddMovie={handleAddMovie}
+      />
     </div>
   );
 }

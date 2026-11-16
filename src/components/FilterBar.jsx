@@ -6,7 +6,8 @@ export default function FilterBar({
   setSelectedGenre, 
   sortBy, 
   setSortBy, 
-  totalResults 
+  totalResults,
+  onOpenAddModal
 }) {
   return (
     <div className="filter-bar">
@@ -37,6 +38,14 @@ export default function FilterBar({
             <option value="title-asc">სახელით (A-Z)</option>
           </select>
         </div>
+
+        <button 
+          type="button" 
+          className="add-movie-trigger-btn"
+          onClick={onOpenAddModal}
+        >
+          + ფილმის დამატება
+        </button>
       </div>
     </div>
   );

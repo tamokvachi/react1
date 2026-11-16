@@ -13,10 +13,12 @@ export default function MoviesSection({
   favorites,
   toggleFavorite,
   onSelectMovie,
-  onResetFilters
+  onResetFilters,
+  onOpenAddModal,
+  onDeleteMovie
 }) {
   return (
-    <section className="movies-section">
+    <section className="movies-section" id="movies-section">
       {/* ფილტრაცია და სორტირება */}
       <FilterBar
         selectedGenre={selectedGenre}
@@ -24,6 +26,7 @@ export default function MoviesSection({
         sortBy={sortBy}
         setSortBy={setSortBy}
         totalResults={movies.length}
+        onOpenAddModal={onOpenAddModal}
       />
 
       {/* რჩეულების ფილტრის შეტყობინება */}
@@ -44,6 +47,7 @@ export default function MoviesSection({
               isFavorite={favorites.includes(movie.id)}
               onToggleFavorite={toggleFavorite}
               onSelectMovie={onSelectMovie}
+              onDeleteMovie={onDeleteMovie}
             />
           ))}
         </div>

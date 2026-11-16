@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-export default function MovieModal({ movie, onClose, isFavorite, onToggleFavorite }) {
+export default function MovieModal({ movie, onClose, isFavorite, onToggleFavorite, onDeleteMovie }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -10,6 +10,13 @@ export default function MovieModal({ movie, onClose, isFavorite, onToggleFavorit
   }, [onClose]);
 
   if (!movie) return null;
+
+  const handleDelete = () => {
+    if (window.confirm(`ნამდვილად გსურთ ფილმის "${movie.title}" წაშლა?`)) {
+      onDeleteMovie(movie.id);
+      onClose();
+    }
+  };
 
   return (
     <div className="modal-backdrop" onClick={onClose}>
@@ -68,6 +75,15 @@ export default function MovieModal({ movie, onClose, isFavorite, onToggleFavorit
               >
                 ▶ ტრეილერის ნახვა
               </button>
+              {onDeleteMovie && (
+                <button 
+                  className="action-btn delete-btn-modal"
+                  onClick={handleDelete}
+                  title="ფილმის წაშლა"
+                >
+                  🗑️ წაშლა
+                </button>
+              )}
             </div>
           </div>
         </div>
