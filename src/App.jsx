@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { MOVIES } from './data/movies';
-import Navbar from './components/Navbar';
-import FilterBar from './components/FilterBar';
-import MovieCard from './components/MovieCard';
+import Header from './components/Header';
+import HeroSection from './components/HeroSection';
+import MoviesSection from './components/MoviesSection';
+import Footer from './components/Footer';
 import MovieModal from './components/MovieModal';
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
   const [favorites, setFavorites] = useState(() => {
     try {
       const saved = localStorage.getItem('moviehub_favs');
-      return saved ? JSON.parse(saved) : [1, 3]; // default top 2 as favorites
+      return saved ? JSON.parse(saved) : [1, 3];
     } catch {
       return [1, 3];
     }
@@ -36,17 +37,23 @@ export default function App() {
     );
   };
 
+  const handleResetFilters = () => {
+    setSearchQuery('');
+    setSelectedGenre('ყველა');
+    setShowFavoritesOnly(false);
+  };
+
   const filteredMovies = useMemo(() => {
     return MOVIES.filter(movie => {
-      // Genre filter
+      // ჟანრის ფილტრი
       if (selectedGenre !== 'ყველა' && movie.genre !== selectedGenre) {
         return false;
       }
-      // Favorites filter
+      // რჩეულების ფილტრი
       if (showFavoritesOnly && !favorites.includes(movie.id)) {
         return false;
       }
-      // Search filter
+      // ძებნის ფილტრი
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase().trim();
         const matchesTitle = movie.title.toLowerCase().includes(query);
@@ -62,13 +69,14 @@ export default function App() {
       if (sortBy === 'rating-desc') return b.rating - a.rating;
       if (sortBy === 'year-desc') return b.year - a.year;
       if (sortBy === 'title-asc') return a.title.localeCompare(b.title);
-      return 0; // default order
+      return 0;
     });
   }, [searchQuery, selectedGenre, showFavoritesOnly, favorites, sortBy]);
 
   return (
     <div className="app-layout">
-      <Navbar
+      {/* 1. HEADER COMPONENT */}
+      <Header
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         favoritesCount={favorites.length}
@@ -77,89 +85,27 @@ export default function App() {
       />
 
       <main className="container main-content">
-        {/* Hero Section */}
-        <section className="hero-banner">
-          <div className="hero-text">
-            <span className="hero-badge">✨ კინოკოლექცია</span>
-            <h1>აღმოაჩინე მსოფლიო კინოკლასიკა და ჰიტები</h1>
-            <p>
-              დაათვალიერე შენი საყვარელი ფილმები, გაეცანი რეიტინგებს, 
-              შეინახე რჩეულებში და აღმოაჩინე ახალი შედევრები.
-            </p>
-          </div>
-          <div className="hero-stats">
-            <div className="stat-card">
-              <span className="stat-number">{MOVIES.length}</span>
-              <span className="stat-label">საუკეთესო ფილმი</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-number">8.8</span>
-              <span className="stat-label">საშუალო რეიტინგი</span>
-            </div>
-            <div className="stat-card">
-              <span className="stat-number">100%</span>
-              <span className="stat-label">HD ხარისხი</span>
-            </div>
-          </div>
-        </section>
+        {/* 2. HERO SECTION COMPONENT */}
+        <HeroSection totalMovies={MOVIES.length} />
 
-        {/* Filter & Sort Bar */}
-        <FilterBar
+        {/* 3. MOVIES SECTION COMPONENT */}
+        <MoviesSection
+          movies={filteredMovies}
           selectedGenre={selectedGenre}
           setSelectedGenre={setSelectedGenre}
           sortBy={sortBy}
           setSortBy={setSortBy}
-          totalResults={filteredMovies.length}
+          showFavoritesOnly={showFavoritesOnly}
+          setShowFavoritesOnly={setShowFavoritesOnly}
+          favorites={favorites}
+          toggleFavorite={toggleFavorite}
+          onSelectMovie={setSelectedMovie}
+          onResetFilters={handleResetFilters}
         />
-
-        {/* Status notice when filtering by favorites */}
-        {showFavoritesOnly && (
-          <div className="filter-notice">
-            <span>ნაჩვენებია მხოლოდ რჩეული ფილმები ({filteredMovies.length})</span>
-            <button onClick={() => setShowFavoritesOnly(false)}>ყველა ფილმის ჩვენება</button>
-          </div>
-        )}
-
-        {/* Movies Grid */}
-        {filteredMovies.length > 0 ? (
-          <div className="movies-grid">
-            {filteredMovies.map(movie => (
-              <MovieCard
-                key={movie.id}
-                movie={movie}
-                isFavorite={favorites.includes(movie.id)}
-                onToggleFavorite={toggleFavorite}
-                onSelectMovie={setSelectedMovie}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="empty-state">
-            <div className="empty-icon">🎬</div>
-            <h2>ფილმი ვერ მოიძებნა</h2>
-            <p>სცადეთ სხვა საძიებო სიტყვა ან შეცვალეთ ჟანრის ფილტრი</p>
-            <button
-              className="reset-btn"
-              onClick={() => {
-                setSearchQuery('');
-                setSelectedGenre('ყველა');
-                setShowFavoritesOnly(false);
-              }}
-            >
-              ფილტრების გასუფთავება
-            </button>
-          </div>
-        )}
       </main>
 
-      <footer className="footer">
-        <div className="container footer-content">
-          <div className="footer-logo">
-            <span>🎬</span> MovieHub
-          </div>
-          <p>© 2026 MovieHub — ყველა უფლება დაცულია. შექმნილია React-ით & თანამედროვე CSS-ით.</p>
-        </div>
-      </footer>
+      {/* 4. FOOTER COMPONENT */}
+      <Footer />
 
       {/* Movie Details Modal */}
       {selectedMovie && (
